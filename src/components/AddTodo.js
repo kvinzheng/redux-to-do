@@ -2,7 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { addTodo } from '../actions'
 
-let AddTodo = ({ dispatch }) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    addTodo: (value)=> { return dispatch(addTodo(value))
+    },
+  }
+};
+
+const AddTodo = ({addTodo}) => {
   let input
 
   return (
@@ -12,12 +19,10 @@ let AddTodo = ({ dispatch }) => {
         if (!input.value.trim()) {
           return
         }
-        dispatch(addTodo(input.value))
+        addTodo(input.value)
         input.value = ''
       }}>
-        <input ref={node => {
-          input = node
-        }} />
+        <input ref={ node => { input = node }} />
         <button type="submit">
           Add Todo
         </button>
@@ -25,6 +30,6 @@ let AddTodo = ({ dispatch }) => {
     </div>
   )
 }
-AddTodo = connect()(AddTodo)
 
-export default AddTodo
+
+export default connect(null, mapDispatchToProps)(AddTodo);
